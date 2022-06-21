@@ -9,14 +9,21 @@ type TodoProps = {
   setTodos: React.Dispatch<React.SetStateAction<Todo[]>>
 }
 
-export const SingleTodo: React.FunctionComponent<TodoProps> = ({
-  todo,
-  todos,
-  setTodos,
-}) => {
+export const SingleTodo = ({ todo, todos, setTodos }: TodoProps) => {
+  const handleDone = (id: number) => {
+    setTodos(
+      todos.map(todo =>
+        todo.id === id ? { ...todo, isDone: !todo.isDone } : todo,
+      ),
+    )
+  }
   return (
     <form className="todos__single">
-      <span className="todos__single-text">{todo.todo}</span>
+      {todo.isDone ? (
+        <s className="todos__single-text">{todo.todo}</s>
+      ) : (
+        <span className="todos__single-text">{todo.todo}</span>
+      )}
       <div>
         <span className="icon">
           <AiFillEdit />
@@ -24,7 +31,7 @@ export const SingleTodo: React.FunctionComponent<TodoProps> = ({
         <span className="icon">
           <AiFillDelete />
         </span>
-        <span className="icon">
+        <span className="icon" onClick={() => handleDone(todo.id)}>
           <MdDone />
         </span>
       </div>
