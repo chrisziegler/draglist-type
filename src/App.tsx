@@ -20,6 +20,24 @@ const App: FunctionComponent = () => {
       setTodo('')
     }
   }
+  const setTodoIsDone = (id: number) => {
+    setTodos(
+      todos.map(todo =>
+        todo.id === id ? { ...todo, isDone: !todo.isDone } : todo,
+      ),
+    )
+  }
+  const deleteTodo = (id: number) => {
+    setTodos(todos.filter(todo => todo.id !== id))
+  }
+
+  const updateTodo = (todo: Todo) => {
+    setTodos(
+      todos.map(t =>
+        t.id === todo.id ? { ...t, todo: todo.todo } : t,
+      ),
+    )
+  }
 
   return (
     <div className="App">
@@ -29,7 +47,12 @@ const App: FunctionComponent = () => {
         setTodo={setTodo}
         handleAdd={handleAdd}
       />
-      <TodoList todos={todos} setTodos={setTodos} />
+      <TodoList
+        todos={todos}
+        handleDone={setTodoIsDone}
+        handleDelete={deleteTodo}
+        updateTodo={updateTodo}
+      />
     </div>
   )
 }
